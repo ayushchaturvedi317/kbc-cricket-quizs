@@ -1,0 +1,73 @@
+import random
+
+# --- Questions: 15 cricket-themed ---
+questions = [
+    {"q": "Who has scored the most runs in ODI cricket?", "options": ["Sachin Tendulkar", "Virat Kohli", "Ricky Ponting", "Brian Lara"], "answer": "Sachin Tendulkar"},
+    {"q": "Who has taken the most wickets in Test cricket?", "options": ["Muttiah Muralitharan", "Shane Warne", "Anil Kumble", "James Anderson"], "answer": "Muttiah Muralitharan"},
+    {"q": "Which team won the 2019 Cricket World Cup?", "options": ["India", "England", "New Zealand", "Australia"], "answer": "England"},
+    {"q": "Who is known as the 'Rawalpindi Express'?", "options": ["Wasim Akram", "Waqar Younis", "Imran Khan", "Shoaib Akhtar"], "answer": "Shoaib Akhtar"},
+    {"q": "Which player scored the first double century in ODI cricket?", "options": ["Rohit Sharma", "Sachin Tendulkar", "Virender Sehwag", "Martin Guptill"], "answer": "Sachin Tendulkar"},
+    {"q": "Who holds the record for most sixes in T20 internationals?", "options": ["Chris Gayle", "Rashid Khan", "AB de Villiers", "Kieron Pollard"], "answer": "Chris Gayle"},
+    {"q": "Which country won the first ever T20 World Cup in 2007?", "options": ["India", "Pakistan", "Australia", "England"], "answer": "India"},
+    {"q": "Who is the highest run-scorer in Test cricket for India?", "options": ["Sunil Gavaskar", "Rahul Dravid", "Virat Kohli", "Sachin Tendulkar"], "answer": "Sachin Tendulkar"},
+    {"q": "Which bowler has the best bowling figures in a World Cup match?", "options": ["Glenn McGrath", "Chaminda Vaas", "Muttiah Muralitharan", "Anil Kumble"], "answer": "Chaminda Vaas"},
+    {"q": "Which team has won the most IPL titles?", "options": ["Mumbai Indians", "Chennai Super Kings", "Kolkata Knight Riders", "Sunrisers Hyderabad"], "answer": "Mumbai Indians"},
+    {"q": "Who captained India to the 1983 World Cup victory?", "options": ["Kapil Dev", "Sunil Gavaskar", "Mohinder Amarnath", "Sourav Ganguly"], "answer": "Kapil Dev"},
+    {"q": "Who is the fastest bowler in cricket history?", "options": ["Brett Lee", "Shaun Tait", "Shoaib Akhtar", "Mitchell Starc"], "answer": "Shoaib Akhtar"},
+    {"q": "Which cricketer is known as 'Mr. 360'?", "options": ["AB de Villiers", "MS Dhoni", "Ricky Ponting", "Chris Gayle"], "answer": "AB de Villiers"},
+    {"q": "Who has scored the fastest century in ODI cricket?", "options": ["AB de Villiers", "Corey Anderson", "Shahid Afridi", "Virat Kohli"], "answer": "AB de Villiers"},
+    {"q": "Which team won the ICC Champions Trophy 2017?", "options": ["India", "Pakistan", "Sri Lanka", "South Africa"], "answer": "Pakistan"},
+]
+
+# --- Lifelines ---
+lifelines = ["50:50", "Ask the Expert", "Audience Poll"]
+score = 0
+
+def use_5050(question):
+    correct = question["answer"]
+    options = question["options"]
+    wrong_options = [opt for opt in options if opt != correct]
+    removed = random.sample(wrong_options, 2)
+    new_options = [opt for opt in options if opt not in removed]
+    print("\n50:50 Lifeline used! Options now:")
+    for idx, opt in enumerate(new_options):
+        print(f"{chr(65+idx)}. {opt}")
+    return new_options
+
+def ask_expert(question):
+    print("\nAsk the Expert Lifeline used! Expert suggests:", question["answer"])
+
+def audience_poll(question):
+    print("\nAudience Poll Lifeline used! Majority suggests:", question["answer"])
+
+print("Welcome to Cricket Kaun Banega Crorepati!")
+print("Lifelines available:", ", ".join(lifelines))
+print("Answer questions by typing A, B, C, or D.\n")
+
+for i, q in enumerate(questions, 1):
+    print(f"Q{i}: {q['q']}")
+    for idx, opt in enumerate(q["options"]):
+        print(f"{chr(65+idx)}. {opt}")
+
+    options_to_use = q["options"]
+    if lifelines:
+        use_life = input(f"Do you want to use a lifeline? {lifelines} (type lifeline name or 'no'): ").strip()
+        if use_life in lifelines:
+            lifelines.remove(use_life)
+            if use_life == "50:50":
+                options_to_use = use_5050(q)
+            elif use_life == "Ask the Expert":
+                ask_expert(q)
+            elif use_life == "Audience Poll":
+                audience_poll(q)
+
+    answer = input("Your answer: ").strip()
+    mapping = {chr(65+idx): opt for idx, opt in enumerate(options_to_use)}
+    if answer.upper() in mapping and mapping[answer.upper()] == q["answer"]:
+        print("Correct!\n")
+        score += 1
+    else:
+        print(f"Wrong! The correct answer was: {q['answer']}\n")
+        break
+
+print(f"Game Over! Your score: {score}/{len(questions)}") 
