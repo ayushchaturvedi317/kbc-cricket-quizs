@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket KBC Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cricket Kaun Banega Crorepati</h1>
+        <div id="question-container">
+            <p id="question"></p>
+            <div id="options"></div>
+        </div>
+        <div id="lifelines">
+            <button onclick="use5050()">50:50</button>
+            <button onclick="askExpert()">Ask the Expert</button>
+            <button onclick="audiencePoll()">Audience Poll</button>
+        </div>
+        <p id="score"></p>
+        <button id="next-btn" onclick="nextQuestion()" style="display:none;">Next Question</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
